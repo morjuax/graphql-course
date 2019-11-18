@@ -1,9 +1,10 @@
 import express from 'express';
 import graphqlHTTP from 'express-graphql';
-import schema from './schema'
+import schema from './schema';
+import {connectMongoDB} from './database'
 
 const app = express();
-
+connectMongoDB();
 // Settings
 const port = process.env.PORT || 3000;
 
@@ -17,7 +18,10 @@ app.get('/', (req, res) => {
 
 app.use('/graphql', graphqlHTTP({
     schema,
-    graphiql: true
+    graphiql: true,
+    context: {
+        messageId: 'test'
+    }
 }));
 
 
